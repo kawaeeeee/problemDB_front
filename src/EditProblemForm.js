@@ -5,35 +5,40 @@ import apiClient from './api';
 const EditProblemForm = ({ problem, grades, subjects, onClose }) => {
     const [filteredSubjects, setFilteredSubjects] = useState([]);
     const [units, setUnits] = useState([]);
-    const [selectedGrade, setSelectedGrade] = useState(problem.grade_id);
-    const [selectedSubject, setSelectedSubject] = useState('');
-    const [selectedUnit, setSelectedUnit] = useState('');
+    const [grade, setGrade] = useState(problem.grade_id);
+    const [subject, setSubject] = useState(problem.subject_id);
+    const [unit, setUnit] = useState(problem.unit_id);
     const [difficulty, setDifficulty] = useState(problem.difficulty);
     const [title, setTitle] = useState(problem.title);
+    const [changeCount, setChangeCount] = useState(0);
 
-    // Filtering subjects based on the selected grade
     useEffect(() => {
-        if (selectedGrade) {
-            const filtered = subjects.filter(subject => subject.grade_id == selectedGrade);
+        // 学年に基づいて教科をフィルタリング
+        if (grade) {
+            const filtered = subjects.filter(subject => subject.grade_id == grade);
             setFilteredSubjects(filtered);
-
-            // Automatically set the subject if it exists in the filtered list
-            if (filtered.length > 0 && problem.subject_id) {
-                setSelectedSubject(problem.subject_id);
-                fetchUnitsForSubject(problem.subject_id);
-            } else {
-                setSelectedSubject('');
-                setUnits([]);
-            }
         }
-    }, [selectedGrade, problem.subject_id, subjects]);
 
-    // Set the initial unit if problem data is available
+        // 教科の初期化は、フォーム初期化時には行わず、ユーザーが学年を変更した場合のみ実施
+        if ( changeCount > 0) {
+            setSubject('');
+            setUnit('');
+        }
+        setChangeCount(changeCount + 1);
+    }, [grade, subjects]);
+
     useEffect(() => {
-        if (problem.unit_id) {
-            setSelectedUnit(problem.unit_id);
+        // 教科に基づいて単元を取得
+        if (subject) {
+            fetchUnitsForSubject(subject);
         }
-    }, [problem.unit_id]);
+
+        // 単元の初期化は、フォーム初期化時には行わず、ユーザーが教科を変更した場合のみ実施
+        if ( changeCount > 0 ) {
+            setUnit('');
+        }
+        setChangeCount(changeCount + 1);
+    }, [subject]);
 
     const fetchUnitsForSubject = async (subjectId) => {
         const response = await apiClient.get(`/get/units/${subjectId}`);
@@ -42,15 +47,15 @@ const EditProblemForm = ({ problem, grades, subjects, onClose }) => {
 
     const isFormValid = () => {
         return (
-            selectedGrade &&
-            selectedSubject &&
-            selectedUnit &&
+            grade &&
+            subject &&
+            unit &&
             title &&
             difficulty !== undefined
         );
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
         if (!isFormValid()) {
             alert('すべての項目を入力してください。');
             return;
@@ -58,9 +63,9 @@ const EditProblemForm = ({ problem, grades, subjects, onClose }) => {
 
         const formData = new FormData();
         formData.append('id', problem.id);
-        formData.append('grade', selectedGrade);
-        formData.append('subject', selectedSubject);
-        formData.append('unit', selectedUnit);
+        formData.append('grade', grade);
+        formData.append('subject', subject);
+        formData.append('unit', unit);
         formData.append('title', title);
         formData.append('difficulty', difficulty);
 
@@ -75,11 +80,12 @@ const EditProblemForm = ({ problem, grades, subjects, onClose }) => {
 
     return (
         <Box>
+            <h1>{changeCount}</h1>
             <FormControl fullWidth margin="normal">
                 <InputLabel>学年</InputLabel>
                 <Select
-                    value={selectedGrade}
-                    onChange={(e) => setSelectedGrade(e.target.value)}
+                    value={grade}
+                    onChange={(e) => setGrade(e.target.value)}
                 >
                     {grades.map(grade => (
                         <MenuItem key={grade.id} value={grade.id}>{grade.name}</MenuItem>
@@ -90,15 +96,12 @@ const EditProblemForm = ({ problem, grades, subjects, onClose }) => {
             <FormControl fullWidth margin="normal">
                 <InputLabel>教科</InputLabel>
                 <Select
-                    value={selectedSubject}
-                    onChange={(e) => {
-                        setSelectedSubject(e.target.value);
-                        fetchUnitsForSubject(e.target.value);
-                    }}
-                    disabled={!selectedGrade}
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    disabled={!grade}
                 >
-                    {filteredSubjects.map(sub => (
-                        <MenuItem key={sub.id} value={sub.id}>{sub.name}</MenuItem>
+                    {filteredSubjects.map(subject => (
+                        <MenuItem key={subject.id} value={subject.id}>{subject.name}</MenuItem>
                     ))}
                 </Select>
             </FormControl>
@@ -106,9 +109,9 @@ const EditProblemForm = ({ problem, grades, subjects, onClose }) => {
             <FormControl fullWidth margin="normal">
                 <InputLabel>単元</InputLabel>
                 <Select
-                    value={selectedUnit}
-                    onChange={(e) => setSelectedUnit(e.target.value)}
-                    disabled={!selectedSubject}
+                    value={unit}
+                    onChange={(e) => setUnit(e.target.value)}
+                    disabled={!subject}
                 >
                     {units.map(unit => (
                         <MenuItem key={unit.id} value={unit.id}>{unit.name}</MenuItem>
