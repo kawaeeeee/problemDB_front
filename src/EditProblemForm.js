@@ -5,40 +5,35 @@ import apiClient from './api';
 const EditProblemForm = ({ problem, grades, subjects, onClose }) => {
     const [filteredSubjects, setFilteredSubjects] = useState([]);
     const [units, setUnits] = useState([]);
-    const [grade, setGrade] = useState(problem.grade_id);
-    const [subject, setSubject] = useState('');
-    const [unit, setUnit] = useState('');
+    const [selectedGrade, setSelectedGrade] = useState(problem.grade_id);
+    const [selectedSubject, setSelectedSubject] = useState('');
+    const [selectedUnit, setSelectedUnit] = useState('');
     const [difficulty, setDifficulty] = useState(problem.difficulty);
     const [title, setTitle] = useState(problem.title);
 
-
+    // Filtering subjects based on the selected grade
     useEffect(() => {
-        if (problem.grade_id) {
-            const filtered = subjects.filter(subject => subject.grade_id === problem.grade_id);
+        if (selectedGrade) {
+            const filtered = subjects.filter(subject => subject.grade_id == selectedGrade);
             setFilteredSubjects(filtered);
-        }
-    },[])
 
-    // 初期値の設定
-    useEffect(() => {
-        if (grade) {
-            const filtered = subjects.filter(subject => subject.grade_id === grade);
-            setFilteredSubjects(filtered);
+            // Automatically set the subject if it exists in the filtered list
+            if (filtered.length > 0 && problem.subject_id) {
+                setSelectedSubject(problem.subject_id);
+                fetchUnitsForSubject(problem.subject_id);
+            } else {
+                setSelectedSubject('');
+                setUnits([]);
+            }
         }
-    }, [grade, subjects]);
+    }, [selectedGrade, problem.subject_id, subjects]);
 
-    useEffect(() => {
-        if (problem.subject_id) {
-            setSubject(problem.subject_id);
-            fetchUnitsForSubject(problem.subject_id);
-        }
-    }, [problem.subject_id]);
-
+    // Set the initial unit if problem data is available
     useEffect(() => {
         if (problem.unit_id) {
-            setUnit(problem.unit_id);
+            setSelectedUnit(problem.unit_id);
         }
-    }, [problem.unit_id, units]);
+    }, [problem.unit_id]);
 
     const fetchUnitsForSubject = async (subjectId) => {
         const response = await apiClient.get(`/get/units/${subjectId}`);
@@ -47,15 +42,15 @@ const EditProblemForm = ({ problem, grades, subjects, onClose }) => {
 
     const isFormValid = () => {
         return (
-            grade &&
-            subject &&
-            unit &&
+            selectedGrade &&
+            selectedSubject &&
+            selectedUnit &&
             title &&
             difficulty !== undefined
         );
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async () => {
         if (!isFormValid()) {
             alert('すべての項目を入力してください。');
             return;
@@ -63,9 +58,9 @@ const EditProblemForm = ({ problem, grades, subjects, onClose }) => {
 
         const formData = new FormData();
         formData.append('id', problem.id);
-        formData.append('grade', grade);
-        formData.append('subject', subject);
-        formData.append('unit', unit);
+        formData.append('grade', selectedGrade);
+        formData.append('subject', selectedSubject);
+        formData.append('unit', selectedUnit);
         formData.append('title', title);
         formData.append('difficulty', difficulty);
 
@@ -83,8 +78,8 @@ const EditProblemForm = ({ problem, grades, subjects, onClose }) => {
             <FormControl fullWidth margin="normal">
                 <InputLabel>学年</InputLabel>
                 <Select
-                    value={grade}
-                    onChange={(e) => setGrade(e.target.value)}
+                    value={selectedGrade}
+                    onChange={(e) => setSelectedGrade(e.target.value)}
                 >
                     {grades.map(grade => (
                         <MenuItem key={grade.id} value={grade.id}>{grade.name}</MenuItem>
@@ -95,15 +90,15 @@ const EditProblemForm = ({ problem, grades, subjects, onClose }) => {
             <FormControl fullWidth margin="normal">
                 <InputLabel>教科</InputLabel>
                 <Select
-                    value={subject}
+                    value={selectedSubject}
                     onChange={(e) => {
-                        setSubject(e.target.value);
+                        setSelectedSubject(e.target.value);
                         fetchUnitsForSubject(e.target.value);
                     }}
-                    disabled={!grade}
+                    disabled={!selectedGrade}
                 >
-                    {filteredSubjects.map(subject => (
-                        <MenuItem key={subject.id} value={subject.id}>{subject.name}</MenuItem>
+                    {filteredSubjects.map(sub => (
+                        <MenuItem key={sub.id} value={sub.id}>{sub.name}</MenuItem>
                     ))}
                 </Select>
             </FormControl>
@@ -111,9 +106,9 @@ const EditProblemForm = ({ problem, grades, subjects, onClose }) => {
             <FormControl fullWidth margin="normal">
                 <InputLabel>単元</InputLabel>
                 <Select
-                    value={unit}
-                    onChange={(e) => setUnit(e.target.value)}
-                    disabled={!subject}
+                    value={selectedUnit}
+                    onChange={(e) => setSelectedUnit(e.target.value)}
+                    disabled={!selectedSubject}
                 >
                     {units.map(unit => (
                         <MenuItem key={unit.id} value={unit.id}>{unit.name}</MenuItem>
