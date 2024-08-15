@@ -3,8 +3,9 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Butto
 import axios from 'axios';
 import apiClient from './api';
 import OpenPdfButton from './OpenPdfButton';
+import EditProblemButton from './EditProblemButton';
 
-const ProblemList = () => {
+const ProblemList = ({ isEditable }) => {
   const [problems, setProblems] = useState([]);
   const [grades, setGrades] = useState([]);
   const [subjects, setSubjects] = useState([]);
@@ -103,6 +104,9 @@ const ProblemList = () => {
                 <TableCell>{problem.difficulty}</TableCell>
                 <TableCell>
                   <OpenPdfButton problem_id={problem.id}></OpenPdfButton>
+                </TableCell>
+                <TableCell>
+                    <EditProblemButton problem={problem} grades={grades} subjects={subjects}></EditProblemButton>
                 </TableCell>
               </TableRow>
             ))}
