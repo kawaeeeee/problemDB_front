@@ -75,7 +75,7 @@ const PdfViewer = () => {
                     <Route path="editproblem" element={
                         <div>
                             <AddProblemButton />
-                            <ProblemList />
+                            <ProblemList isEditable={true}/>
                         </div>
                     } />
 

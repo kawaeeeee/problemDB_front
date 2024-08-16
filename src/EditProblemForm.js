@@ -70,7 +70,7 @@ const EditProblemForm = ({ problem, grades, subjects, onClose }) => {
         formData.append('difficulty', difficulty);
 
         try {
-            await apiClient.put(`/api/problems/${problem.id}`, formData);
+            await apiClient.put(`/edit/problem/${problem.id}`, formData);
             alert('問題が更新されました');
             onClose(); // モーダルを閉じる
         } catch (error) {
@@ -80,7 +80,6 @@ const EditProblemForm = ({ problem, grades, subjects, onClose }) => {
 
     return (
         <Box>
-            <h1>{changeCount}</h1>
             <FormControl fullWidth margin="normal">
                 <InputLabel>学年</InputLabel>
                 <Select

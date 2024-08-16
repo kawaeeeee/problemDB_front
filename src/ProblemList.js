@@ -4,6 +4,7 @@ import axios from 'axios';
 import apiClient from './api';
 import OpenPdfButton from './OpenPdfButton';
 import EditProblemButton from './EditProblemButton';
+import DeleteProblemButton from './DeleteProblemButton';
 
 const ProblemList = ({ isEditable }) => {
   const [problems, setProblems] = useState([]);
@@ -50,7 +51,7 @@ const ProblemList = ({ isEditable }) => {
 
   return (
     <div>
-      <Button variant="contained" onClick={fetchAllProblems}>全件取得</Button>
+      {/* <Button variant="contained" onClick={fetchAllProblems}>全件取得</Button> */}
 
       <div style={{ marginTop: 20, display: 'flex', alignItems: 'center', gap: '10px' }}>
         <FormControl fullWidth margin="normal" style={{ flex: 1 }}>
@@ -92,6 +93,8 @@ const ProblemList = ({ isEditable }) => {
               <TableCell>タイトル</TableCell>
               <TableCell>難しさ</TableCell>
               <TableCell>ファイルを開く</TableCell>
+              {isEditable && <TableCell>編集</TableCell>}
+              {isEditable && <TableCell>削除</TableCell>}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -105,9 +108,17 @@ const ProblemList = ({ isEditable }) => {
                 <TableCell>
                   <OpenPdfButton problem_id={problem.id}></OpenPdfButton>
                 </TableCell>
-                <TableCell>
-                    <EditProblemButton problem={problem} grades={grades} subjects={subjects}></EditProblemButton>
-                </TableCell>
+                {isEditable &&
+                    <TableCell>
+                        <EditProblemButton problem={problem} grades={grades} subjects={subjects}></EditProblemButton>
+                    </TableCell>
+                }
+                {isEditable &&
+                    <TableCell>
+                        <DeleteProblemButton problem={problem}/>
+                    </TableCell>
+                }
+                
               </TableRow>
             ))}
           </TableBody>

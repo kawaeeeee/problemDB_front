@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, TextField, Modal, Box } from '@mui/material';
-import axios from 'axios';
 import apiClient from './api';
 
 const UnitList = () => {
