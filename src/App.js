@@ -58,6 +58,16 @@ const PdfViewer = () => {
                         <div>
                             <Button onClick={handleOpenunitf}>単元を追加</Button>
                             <UnitList></UnitList>
+                            <Modal
+                                open={openunitf}
+                                onClose={handleCloseunitf}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                            >
+                                <Box sx={modalStyle}>
+                                    <UnitForm></UnitForm>
+                                </Box>
+                            </Modal>
                             {/* <h1>pdf 表示テスト</h1>
                             <FileUpload></FileUpload>
                             <Modal
