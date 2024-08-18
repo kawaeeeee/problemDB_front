@@ -19,8 +19,17 @@ pdf形式の問題をアップロードし、その問題を検索、表示、�
 # 機能一覧
 
 ## 問題一覧表示機能
+<img width="956" alt="problem_list" src="https://github.com/user-attachments/assets/f185f6ff-1d16-4ca0-8611-8a97541e11c2">
+
+ホーム画面で、メニューバーの下の学年、教科をクリックするとプルダウンで選択できる。
+検索を押すと、条件に適した問題の一覧が表示される。
+なにも指定しないで検索だけを押すと、すべての問題一覧が表示される。
 
 ## pdfファイル表示機能
+<img width="954" alt="showpdf" src="https://github.com/user-attachments/assets/c94b89c9-2332-46af-b053-8ef36646e581">
+
+ファイルを開くを押すと、そのpdfがモーダルウィンドウに表示される。
+
 
 ## pdfファイル印刷機能
 
