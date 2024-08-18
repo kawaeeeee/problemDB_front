@@ -28,12 +28,20 @@ pdf形式の問題をアップロードし、その問題を検索、表示、�
 ## pdfファイル表示機能
 <img width="954" alt="showpdf" src="https://github.com/user-attachments/assets/c94b89c9-2332-46af-b053-8ef36646e581">
 
-ファイルを開くを押すと、そのpdfがモーダルウィンドウに表示される。
+"開く"ボタンを押すと、そのpdfがモーダルウィンドウに表示される。
 
 
 ## pdfファイル印刷機能
+<img width="1070" alt="printpdf" src="https://github.com/user-attachments/assets/bc199154-bba6-4cb8-8bec-696112d86b27">
+"印刷"ボタンを押すと、モーダルウィンドウが表示され、"印刷する"を選択すると、印刷される。印刷の処理はバックエンドが行う。
 
 ## 問題追加機能
+<img width="956" alt="addproblem" src="https://github.com/user-attachments/assets/e4ee0546-03ea-4cf6-92ac-1f268eb34fb0">
+問題の編集の画面の"問題を追加"ボタンを押すと、モーダルウィンドウが表示される。
+学年、教科、単元、難しさはプルダウンで選択できる。
+タイトルとメモはテキストフィールドに入力する。
+ファイルを選択をすると、デバイスから、pdfファイルをアップロードできる。
+登録を押すと、問題DBに登録される。
 
 ## 問題編集機能
 
