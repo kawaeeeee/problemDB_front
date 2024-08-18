@@ -48,11 +48,33 @@ pdf形式の問題をアップロードし、その問題を検索、表示、�
 
 
 ## 問題編集機能
+問題の編集の画面で、検索し、ファイル一覧を表示後、"編集"ボタンを押すと、モーダルウィンドウが表示され、
+学年、教科、単元、タイトル、難しさを変更できる。
+追加のときと同様に、学年、教科、単元、難しさはプルダウンで選択でき、タイトルはテキストフィールドへの入力である。
+<img width="958" alt="editproblem" src="https://github.com/user-attachments/assets/87cd448d-1b04-464a-b6dd-137903ae694d">
 
 ## 問題削除機能
+問題の編集の画面で、検索し、ファイル一覧を表示後、"削除"ボタンを押すと、モーダルウィンドウが表示され、
+問題を削除できる。
+<img width="959" alt="deleteproblem" src="https://github.com/user-attachments/assets/77ca4a16-bbdd-4564-80ea-5f4e98fc5686">
 
 ## 単元追加機能
+単元の編集の画面の"単元の追加"をクリックすると、モーダルウィンドウが表示され、
+単元を追加することができる。
+学年と教科はプルダウンで選択できる。
+単元名はテキストフィールドへの入力である。
+単元を追加すると、問題を追加するときや、編集するときのプルダウンの選択肢に反映される。
+<img width="958" alt="addunit" src="https://github.com/user-attachments/assets/28af89ce-6dc3-43d5-a0d9-1af91635c479">
+
 
 ## 単元編集機能
+単元の編集の画面の"編集"ボタンを押すと単元名の欄がテキストフィールドに変わり、
+単元名の編集ができる。テキストフィールド入力後保存を押すと、変更が反映される。
+<img width="954" alt="editunit" src="https://github.com/user-attachments/assets/bda2eb4d-8ea0-4fe0-81b0-cfa0bcf7ff4e">
+
 
 ## 単元削除機能
+単元の編集の画面の"編集"ボタンを押すとモーダルウィンドウが表示され、単元を削除できる。
+削除したい単元が問題に使用されている場合は削除できない。
+
+<img width="961" alt="deleteunit" src="https://github.com/user-attachments/assets/9b882135-f27d-4e39-9ba6-710db5480179">
