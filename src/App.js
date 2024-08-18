@@ -25,23 +25,11 @@ const modalStyle = {
   overflow: 'auto', // コンテンツがオーバーフローした場合にスクロールできるように設定
 };
 
-const PdfViewer = () => {
+const App = () => {
     const [openunitf,setOpenunitf] = useState(false);//
-
-    
     const handleOpenunitf = () => setOpenunitf(true);//単元フォームモーダルを開くための関数
     const handleCloseunitf = () => setOpenunitf(false);
 
-    
-
-    // useEffect(() => {
-    //     fetch('http://192.168.3.114:5000/get-pdf')
-    //         .then(response => response.blob())
-    //         .then(blob => {
-    //             setPdfBlob(blob);
-    //         })
-    //         .catch(error => console.error('Error fetching PDF:', error));
-    // }, []);
 
     return (
         <div className='App'>
@@ -50,8 +38,7 @@ const PdfViewer = () => {
                 <Routes>
                     <Route path = "/" element={
                         <div>
-                            <ProblemList />
-                            {/* <AddProblemForm></AddProblemForm> */}
+                            <ProblemList isPrintable={true}/>
                         </div>
                     } />
                     <Route path="editunit" element={
@@ -68,18 +55,6 @@ const PdfViewer = () => {
                                     <UnitForm></UnitForm>
                                 </Box>
                             </Modal>
-                            {/* <h1>pdf 表示テスト</h1>
-                            <FileUpload></FileUpload>
-                            <Modal
-                                open={openunitf}
-                                onClose={handleCloseunitf}
-                                aria-labelledby="modal-modal-title"
-                                aria-describedby="modal-modal-description"
-                            >
-                                <Box sx={modalStyle}>
-                                    <UnitForm></UnitForm>
-                                </Box>
-                            </Modal> */}
                         </div>
                     } />
                     <Route path="editproblem" element={
@@ -92,25 +67,9 @@ const PdfViewer = () => {
                 </Routes>
             </Router>
             
-            {/* <ProblemList></ProblemList>
-            <AddProblemForm></AddProblemForm>
-            <Button onClick={handleOpenunitf}>単元を追加</Button>
-            <UnitList></UnitList>
-            <h1>pdf 表示テスト</h1>
-            <FileUpload></FileUpload>
-            <Modal
-                open={openunitf}
-                onClose={handleCloseunitf}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={modalStyle}>
-                    <UnitForm></UnitForm>
-                </Box>
-            </Modal> */}
             
         </div>
     );
 };
 
-export default PdfViewer;
+export default App;

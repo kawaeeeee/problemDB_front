@@ -42,10 +42,19 @@ const UnitList = () => {
   };
 
   const handleDelete = async () => {
-    await apiClient.delete(`/delete/unit/${deleteUnit.id}`);
-    setModalOpen(false);
-    setDeleteUnit(null);
-    fetchUnits();
+    try {
+      await apiClient.delete(`/delete/unit/${deleteUnit.id}`);
+      setModalOpen(false);
+      setDeleteUnit(null);
+      fetchUnits(); // Fetch the updated list of units
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        alert('このユニットは問題で使用されているため、削除できません。');
+      } else {
+        console.error('ユニットの削除中にエラーが発生しました:', error);
+        alert('ユニットの削除に失敗しました。後でもう一度お試しください。');
+      }
+    }
   };
 
   const getSubjectName = (subject_id) => {

@@ -5,8 +5,9 @@ import apiClient from './api';
 import OpenPdfButton from './OpenPdfButton';
 import EditProblemButton from './EditProblemButton';
 import DeleteProblemButton from './DeleteProblemButton';
+import PrintButton from './PrintButton';
 
-const ProblemList = ({ isEditable }) => {
+const ProblemList = ({ isEditable, isPrintable }) => {
   const [problems, setProblems] = useState([]);
   const [grades, setGrades] = useState([]);
   const [subjects, setSubjects] = useState([]);
@@ -31,12 +32,6 @@ const ProblemList = ({ isEditable }) => {
     setFilteredSubjects(filtered);
   }, [selectedGrade, subjects]);
 
-  const fetchAllProblems = async () => {
-    const response = await apiClient.get('/get/problems');
-    setProblems(response.data);
-    setSelectedGrade('');
-    setSelectedSubject('');
-  };
 
   const fetchFilteredProblems = async () => {
     const response = await apiClient.get('/get/problems', {
@@ -45,13 +40,10 @@ const ProblemList = ({ isEditable }) => {
     setProblems(response.data);
   };
 
-  const handleOpenFile = (filePath) => {
-    window.open(`http://127.0.0.1:5000/${filePath}`, '_blank');
-  };
+
 
   return (
     <div>
-      {/* <Button variant="contained" onClick={fetchAllProblems}>全件取得</Button> */}
 
       <div style={{ marginTop: 20, display: 'flex', alignItems: 'center', gap: '10px' }}>
         <FormControl fullWidth margin="normal" style={{ flex: 1 }}>
@@ -93,6 +85,7 @@ const ProblemList = ({ isEditable }) => {
               <TableCell>タイトル</TableCell>
               <TableCell>難しさ</TableCell>
               <TableCell>ファイルを開く</TableCell>
+              {isPrintable && <TableCell>印刷</TableCell>}
               {isEditable && <TableCell>編集</TableCell>}
               {isEditable && <TableCell>削除</TableCell>}
             </TableRow>
@@ -108,6 +101,11 @@ const ProblemList = ({ isEditable }) => {
                 <TableCell>
                   <OpenPdfButton problem_id={problem.id}></OpenPdfButton>
                 </TableCell>
+                {isPrintable &&
+                    <TableCell>
+                        <PrintButton problem={problem}></PrintButton>
+                    </TableCell>
+                }
                 {isEditable &&
                     <TableCell>
                         <EditProblemButton problem={problem} grades={grades} subjects={subjects}></EditProblemButton>

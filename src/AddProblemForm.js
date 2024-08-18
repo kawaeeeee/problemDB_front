@@ -57,11 +57,22 @@ const AddProblemForm = () => {
     try {
       await apiClient.post('/insert/problem', formData);
       alert('Problem added successfully');
+      resetForm();
     } catch (error) {
       console.error('Error adding problem:', error);
       alert('Failed to add problem');
     }
   };
+
+  const resetForm = () => {
+    setPdfFile(null);
+    setTitle('');
+    setSelectedGrade('');
+    setSelectedSubject('');
+    setSelectedUnit('');
+    setDifficulty('');
+    setMemo('');
+  }
 
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
