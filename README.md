@@ -6,7 +6,8 @@ pdf形式の問題をアップロードし、その問題を検索、表示、�
 
 
 # ホーム画面
-![Uploading problemDBhome.png…]()
+<img width="956" alt="problemDBhome" src="https://github.com/user-attachments/assets/0f371e0e-77b1-4e37-bc23-f76f9c2edafa">
+
 
 # 機能一覧
 
